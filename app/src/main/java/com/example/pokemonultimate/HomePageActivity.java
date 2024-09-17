@@ -30,6 +30,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -62,6 +63,12 @@ public class HomePageActivity extends AppCompatActivity {
 
         pokemonDao = dbHelper.pokemonDao();
 
+        List<PokemonTbl> pokemons = pokemonDao.getAll();
+
+        for (PokemonTbl pokemon : pokemons) {
+            pokemonList.add(new Pokemon(pokemon.getId(),pokemon.getName(),pokemon.getDescription(),R.drawable.pokemon,pokemon.getType()));
+        }
+
 
 
 
@@ -77,6 +84,7 @@ public class HomePageActivity extends AppCompatActivity {
                     if (pokemonDto != null) {
 
                         PokemonTbl newPokemon = new PokemonTbl();
+                        newPokemon.setId(pokemonDto.getId());
                         newPokemon.setName(pokemonDto.getName().getEnglish());
                         newPokemon.setDescription(pokemonDto.getDescription());
                         newPokemon.setImage(pokemonDto.getImage().getSprite());
